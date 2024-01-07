@@ -1,15 +1,9 @@
-#include <algorithm>
-#include <concepts>
+#include "color.h"
+
 #include <cstdint>
 #include <format>
 #include <iostream>
 #include <ostream>
-
-template <std::unsigned_integral T>
-constexpr T scale(T value, T old_max, T new_max)
-{
-    return std::clamp<T>(static_cast<double>(value) * new_max / old_max, 0, new_max);
-}
 
 int main()
 {
@@ -20,11 +14,10 @@ int main()
     for (std::int32_t row { 0 }; row < height; ++row) {
         std::clog << std::format("\rScanlines remaining: {} ", height - row) << &std::flush;
         for (std::int32_t col { 0 }; col < width; ++col) {
-            const auto ir = scale<std::uint8_t>(col, width - 1, 255);
-            const auto ig = scale<std::uint8_t>(row, height - 1, 255);
-            const auto ib = 0;
-
-            std::cout << std::format("{} {} {}\n", ir, ig, ib);
+            const auto pixel_color = color { static_cast<float>(col) / (width - 1),
+                static_cast<float>(row) / (height - 1),
+                0 };
+            write_color(std::cout, pixel_color);
         }
     }
 
