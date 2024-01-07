@@ -20,10 +20,15 @@ public:
 
     vec3<T> direction() const { return dir; }
 
-    point3<T> at(T t) const {
+    point3<T> at(T t) const
+    {
         return orig + t * dir;
     }
+
 private:
     point3<T> orig;
     vec3<T> dir;
 };
+
+using rayd = ray<double>;
+using rayf = ray<float>;

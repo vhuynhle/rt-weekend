@@ -20,3 +20,4 @@ add_library(rtweekend INTERFACE)
 target_include_directories(rtweekend INTERFACE include)
 
 add_subdirectory(01_ppm)
+add_subdirectory(02_camera)
