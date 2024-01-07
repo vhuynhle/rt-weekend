@@ -65,6 +65,9 @@ public:
     }
 };
 
+template <std::floating_point T>
+using point3 = vec3<T>;
+
 using vec3d = vec3<double>;
 using vec3f = vec3<float>;
 using point3d = vec3d;
