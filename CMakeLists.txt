@@ -21,3 +21,4 @@ target_include_directories(rtweekend INTERFACE include)
 
 add_subdirectory(01_ppm)
 add_subdirectory(02_camera)
+add_subdirectory(03_sphere)
