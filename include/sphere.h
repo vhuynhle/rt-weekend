@@ -37,8 +37,9 @@ public:
         }
 
         const point3<T> hit_point { r.at(root) };
-        const vec3<T> normal { (hit_point - center_) / radius_ };
-        return std::make_optional<hit_record<T>>(hit_point, normal, root);
+        const vec3<T> outward_normal { (hit_point - center_) / radius_ };
+        const auto [front_face, normal] = get_face_normal(r, outward_normal);
+        return std::make_optional<hit_record<T>>(hit_point, normal, root, front_face);
     }
 
 private:
