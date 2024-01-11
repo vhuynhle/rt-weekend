@@ -1,0 +1,2 @@
+add_executable(surface_normals surface_normals.cpp)
+target_link_libraries(surface_normals PRIVATE rtweekend)
