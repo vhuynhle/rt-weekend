@@ -15,8 +15,7 @@ template <std::floating_point T> const point3d kSphereCenter { T(0), T(0), T(-1)
 template <std::floating_point T> constexpr T kSphereRadius { T(0.5) };
 
 template <std::floating_point T>
-std::optional<T> hit_sphere(const point3<T>& center, T radius, const ray<T>& r)
-{
+std::optional<T> hit_sphere(const point3<T>& center, T radius, const ray<T>& r) {
     const point3<T> oc { r.origin() - center };
     const T a { r.direction().length_squared() };
     const T half_b { dot(oc, r.direction()) };
@@ -30,8 +29,7 @@ std::optional<T> hit_sphere(const point3<T>& center, T radius, const ray<T>& r)
     return (-half_b - std::sqrt(discriminant)) / (a);
 }
 
-template <std::floating_point T> color<T> ray_color(const ray<T>& r)
-{
+template <std::floating_point T> color<T> ray_color(const ray<T>& r) {
     const std::optional<T> may_hit_sphere { hit_sphere(kSphereCenter<T>, kSphereRadius<T>, r) };
 
     if (may_hit_sphere) {
@@ -46,8 +44,7 @@ template <std::floating_point T> color<T> ray_color(const ray<T>& r)
     return (T(1) - a) * color<T> { T(1), T(1), T(1) } + a * color<T> { T(0.5), T(0.7), T(1) };
 }
 
-int main()
-{
+int main() {
     // image
     constexpr double aspect_ratio { 16.0 / 9.0 };
     constexpr std::int32_t image_width { 1024 };

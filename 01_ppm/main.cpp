@@ -5,8 +5,7 @@
 #include <iostream>
 #include <ostream>
 
-int main()
-{
+int main() {
     constexpr std::int32_t width { 256 };
     constexpr std::int32_t height { 256 };
 

@@ -14,8 +14,8 @@ const auto kSphereCenter = point3<T> { T { 0 }, T { 0 }, T { -1 } };
 
 template <std::floating_point T> constexpr auto kSphereRadius = static_cast<T>(0.5);
 
-template <std::floating_point T> bool hit_sphere(const point3<T>& center, T radius, const ray<T>& r)
-{
+template <std::floating_point T>
+bool hit_sphere(const point3<T>& center, T radius, const ray<T>& r) {
     const auto oc = r.origin() - center;
     const auto a = dot(r.direction(), r.direction());
     const auto b = 2.0 * dot(oc, r.direction());
@@ -24,8 +24,7 @@ template <std::floating_point T> bool hit_sphere(const point3<T>& center, T radi
     return delta > 0;
 }
 
-template <std::floating_point T> color<T> ray_color(const ray<T>& r)
-{
+template <std::floating_point T> color<T> ray_color(const ray<T>& r) {
     if (hit_sphere(kSphereCenter<T>, kSphereRadius<T>, r)) {
         return color<T> { 1, 0, 0 };
     }
@@ -35,8 +34,7 @@ template <std::floating_point T> color<T> ray_color(const ray<T>& r)
     + a * color<T> { T { 0.5 }, T { 0.7 }, T { 1.0 } };
 }
 
-int main()
-{
+int main() {
     // image
     constexpr double aspect_ratio { 16.0 / 9.0 };
     constexpr std::int32_t image_width { 1024 };

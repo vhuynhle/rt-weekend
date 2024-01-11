@@ -9,16 +9,14 @@
 #include <format>
 #include <iostream>
 
-template <std::floating_point T> color<T> ray_color(const ray<T>& r)
-{
+template <std::floating_point T> color<T> ray_color(const ray<T>& r) {
     const vec3<T> unit_direction = unit_vector(r.direction());
     const T a = T { 0.5 } * (unit_direction.y() + T { 1.0 });
     return (T { 1 } - a) * color<T> { T { 1.0 }, T { 1.0 }, T { 1.0 } }
     + a * color<T> { T { 0.5 }, T { 0.7 }, T { 1.0 } };
 }
 
-int main()
-{
+int main() {
     // image
     constexpr double aspect_ratio { 16.0 / 9.0 };
     constexpr std::int32_t image_width { 1600 };

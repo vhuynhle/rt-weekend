@@ -3,4 +3,4 @@
 
 ((c++-mode . ((c-basic-offset . 4)))
  (c-mode . ((c-basic-offset . 4)))
- ("./" . ((fill-column . 100))))
+ (nil . ((fill-column . 100))))
