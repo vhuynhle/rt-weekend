@@ -1,6 +1,7 @@
 #include "color.h"
 #include "hittable.h"
 #include "hittable_list.h"
+#include "interval.h"
 #include "ray.hpp"
 #include "sphere.h"
 #include "vec3.h"
@@ -10,12 +11,26 @@
 #include <cstdint>
 #include <format>
 #include <iostream>
+#include <limits>
 #include <memory>
 #include <optional>
+#include <type_traits>
+
+// image
+constexpr double aspect_ratio { 16.0 / 9.0 };
+constexpr std::int32_t image_width { 1024 };
+constexpr std::int32_t image_height { static_cast<std::int32_t>(image_width / aspect_ratio) };
+
+// camera
+constexpr double focal_length { 1 };
+constexpr double viewport_height { 2.0 };
+constexpr double viewport_width { viewport_height * static_cast<double>(image_width)
+                                  / image_height };
+const point3d camera_center { 0, 0, 0 };
 
 template <std::floating_point T>
 color<T> ray_color(const hittable<T>& obj, const ray<T>& r) {
-    const std::optional<hit_record<T>> may_hit_obj { obj.hit(r, 0, 10) };
+    const std::optional<hit_record<T>> may_hit_obj { obj.hit(r, interval<T>::nonnegative) };
 
     if (may_hit_obj) {
         const vec3<T> normal { may_hit_obj->normal };
@@ -29,18 +44,6 @@ color<T> ray_color(const hittable<T>& obj, const ray<T>& r) {
 }
 
 int main() {
-    // image
-    constexpr double aspect_ratio { 16.0 / 9.0 };
-    constexpr std::int32_t image_width { 1024 };
-    constexpr std::int32_t image_height { static_cast<std::int32_t>(image_width / aspect_ratio) };
-
-    // camera
-    constexpr double focal_length { 1 };
-    constexpr double viewport_height { 2.0 };
-    constexpr double viewport_width { viewport_height * static_cast<double>(image_width)
-                                      / image_height };
-    const point3d camera_center { 0, 0, 0 };
-
     const vec3d viewport_u { viewport_width, 0, 0 };
     const vec3d viewport_v { 0, -viewport_height, 0 };
     const vec3d pixel_delta_u { viewport_u / static_cast<double>(image_width) };
@@ -58,8 +61,8 @@ int main() {
 
     // World
     hittable_list<double> world;
-    world.add(std::make_shared<sphere<double>>(point3d { 0, 0, -1 }, 0.5));        // small ball
-    world.add(std::make_shared<sphere<double>>(point3d { 0, -1000.5, -1 }, 1000)); // earth
+    world.add(std::make_shared<sphere<double>>(point3d { 0, 0, -1 }, 0.5));      // small ball
+    world.add(std::make_shared<sphere<double>>(point3d { 0, -100.5, -1 }, 100)); // earth
 
     // Render
     std::cout << std::format("P3\n{} {}\n255\n", image_width, image_height);

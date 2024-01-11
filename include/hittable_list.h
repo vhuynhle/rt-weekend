@@ -1,6 +1,7 @@
 #pragma once
 
 #include "hittable.h"
+#include "interval.h"
 #include "ray.hpp"
 
 #include <algorithm>
@@ -16,14 +17,15 @@ public:
     void add(std::shared_ptr<hittable<T>> obj) { objects.push_back(std::move(obj)); }
     void clear() { objects.clear(); }
 
-    std::optional<hit_record<T>> hit(const ray<T>& r, T ray_tmin, T ray_tmax) const override {
+    std::optional<hit_record<T>> hit(const ray<T>& r, interval<T> rayt) const override {
         std::optional<hit_record<T>> record { std::nullopt };
 
+        T tmax { rayt.max };
         for (const auto& obj : objects) {
-            auto maybe_hit = obj->hit(r, ray_tmin, ray_tmax);
-            if (maybe_hit.has_value() && maybe_hit->t < ray_tmax) {
+            std::optional<hit_record<T>> maybe_hit { obj->hit(r, rayt) };
+            if (maybe_hit.has_value() && maybe_hit->t < tmax) {
                 record = maybe_hit;
-                ray_tmax = record->t;
+                tmax = record->t;
             }
         }
 

@@ -1,5 +1,6 @@
 #pragma once
 
+#include "interval.h"
 #include "ray.hpp"
 #include "vec3.h"
 
@@ -39,5 +40,5 @@ template <std::floating_point T>
 class hittable {
 public:
     virtual ~hittable() = default;
-    virtual std::optional<hit_record<T>> hit(const ray<T>& r, T ray_tmin, T ray_tmax) const = 0;
+    virtual std::optional<hit_record<T>> hit(const ray<T>& r, interval<T> rayt) const = 0;
 };

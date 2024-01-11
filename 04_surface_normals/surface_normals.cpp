@@ -1,5 +1,6 @@
 #include "color.h"
 #include "hittable.h"
+#include "interval.h"
 #include "ray.hpp"
 #include "sphere.h"
 #include "vec3.h"
@@ -13,7 +14,7 @@
 
 template <std::floating_point T>
 color<T> ray_color(const hittable<T>& obj, const ray<T>& r) {
-    const std::optional<hit_record<T>> may_hit_obj { obj.hit(r, 0, 10) };
+    const std::optional<hit_record<T>> may_hit_obj { obj.hit(r, interval<T>::nonnegative) };
 
     if (may_hit_obj) {
         const vec3<T> normal { may_hit_obj->normal };

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "hittable.h"
+#include "interval.h"
 #include "ray.hpp"
 #include "vec3.h"
 #include <cmath>
@@ -14,7 +15,7 @@ public:
         : center_ { center }
         , radius_ { radius } { }
 
-    std::optional<hit_record<T>> hit(const ray<T>& r, T ray_tmin, T ray_tmax) const override {
+    std::optional<hit_record<T>> hit(const ray<T>& r, interval<T> rayt) const override {
         const vec3<T> oc { r.origin() - center_ };
         const T a { r.direction().length_squared() };
         const T half_b { dot(oc, r.direction()) };
@@ -29,9 +30,9 @@ public:
 
         // Find the nearest root inside the acceptable range
         T root { (-half_b - sqrtd) / a };
-        if (root <= ray_tmin || root >= ray_tmax) {
+        if (!rayt.surrounds(root)) {
             root = (-half_b + sqrtd) / a;
-            if (root <= ray_tmin || root >= ray_tmax) {
+            if (!rayt.surrounds(root)) {
                 return std::nullopt;
             }
         }
