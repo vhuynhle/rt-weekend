@@ -1,8 +1,9 @@
 #include "color.h"
+#include "hittable.h"
 #include "ray.hpp"
+#include "sphere.h"
 #include "vec3.h"
 
-#include <cmath>
 #include <concepts>
 #include <cstddef>
 #include <cstdint>
@@ -11,33 +12,11 @@
 #include <optional>
 
 template <std::floating_point T>
-const point3d kSphereCenter { T(0), T(0), T(-1) };
+color<T> ray_color(const hittable<T>& obj, const ray<T>& r) {
+    const std::optional<hit_record<T>> may_hit_obj { obj.hit(r, 0, 10) };
 
-template <std::floating_point T>
-constexpr T kSphereRadius { T(0.5) };
-
-template <std::floating_point T>
-std::optional<T> hit_sphere(const point3<T>& center, T radius, const ray<T>& r) {
-    const point3<T> oc { r.origin() - center };
-    const T a { r.direction().length_squared() };
-    const T half_b { dot(oc, r.direction()) };
-    const T c { oc.length_squared() - radius * radius };
-    const T discriminant { half_b * half_b - a * c };
-
-    if (discriminant < 0) {
-        return std::nullopt;
-    }
-
-    return (-half_b - std::sqrt(discriminant)) / (a);
-}
-
-template <std::floating_point T>
-color<T> ray_color(const ray<T>& r) {
-    const std::optional<T> may_hit_sphere { hit_sphere(kSphereCenter<T>, kSphereRadius<T>, r) };
-
-    if (may_hit_sphere) {
-        const point3<T> hit_point { r.at(*may_hit_sphere) };
-        const vec3<T> normal { hit_point - kSphereCenter<T> };
+    if (may_hit_obj) {
+        const vec3<T> normal { may_hit_obj->normal };
         return color<T> { T(0.5) * normal.x() + T(0.5), T(0.5) * normal.y() + T(0.5),
                           T(0.5) * normal.z() + T(0.5) };
     }
@@ -75,6 +54,11 @@ int main() {
     // The center of the pixel (0, 0) is half a pixel away from the corner
     const point3d pixel00_loc { viewport_upper_left + 0.5 * (pixel_delta_u + pixel_delta_v) };
 
+    // Sphere
+    constexpr double kSphereRadius { 0.5 };
+    const point3d kSphereCenter { 0, 0, -1 };
+    const sphere<double> my_sphere { kSphereCenter, kSphereRadius };
+
     // Render
     std::cout << std::format("P3\n{} {}\n255\n", image_width, image_height);
     for (std::size_t row { 0 }; row < image_height; ++row) {
@@ -83,7 +67,7 @@ int main() {
                                          + (static_cast<double>(row) * pixel_delta_v) };
             const vec3d ray_direction { pixel_center - camera_center };
             const rayd r { camera_center, ray_direction };
-            const colord pixel_color { ray_color(r) };
+            const colord pixel_color { ray_color(my_sphere, r) };
             write_color(std::cout, pixel_color);
         }
     }

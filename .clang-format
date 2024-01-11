@@ -4,6 +4,7 @@ BasedOnStyle:  WebKit
 AlignAfterOpenBracket: Align
 AlignArrayOfStructures: Right
 AlignOperands: AlignAfterOperator
+AlignTrailingComments: Always
 AlwaysBreakTemplateDeclarations: Yes
 AttributeMacros:
   - __capability
