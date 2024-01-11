@@ -6,8 +6,7 @@
 #include <format>
 #include <ostream>
 
-template <std::floating_point T>
-class vec3 {
+template <std::floating_point T> class vec3 {
 public:
     T e[3];
 
@@ -49,91 +48,59 @@ public:
         return *this;
     }
 
-    vec3& operator/=(T t)
-    {
-        (*this) *= T { 1.0 } / t;
-    }
+    vec3& operator/=(T t) { (*this) *= T { 1.0 } / t; }
 
-    T length() const
-    {
-        return std::sqrt(length_squared());
-    }
+    T length() const { return std::sqrt(length_squared()); }
 
-    T length_squared() const
-    {
-        return e[0] * e[0] + e[1] * e[1] + e[2] * e[2];
-    }
+    T length_squared() const { return e[0] * e[0] + e[1] * e[1] + e[2] * e[2]; }
 };
 
-template <std::floating_point T>
-using point3 = vec3<T>;
+template <std::floating_point T> using point3 = vec3<T>;
 
 using vec3d = vec3<double>;
 using vec3f = vec3<float>;
 using point3d = vec3d;
 using point3f = vec3f;
 
-template <std::floating_point T>
-std::ostream& operator<<(std::ostream& ofs, const vec3<T>& v)
+template <std::floating_point T> std::ostream& operator<<(std::ostream& ofs, const vec3<T>& v)
 {
     ofs << std::format("{} {} {}", v.e[0], v.e[1], v.e[2]);
     return ofs;
 }
 
-template <std::floating_point T>
-vec3<T> operator+(const vec3<T>& u, const vec3<T>& v)
+template <std::floating_point T> vec3<T> operator+(const vec3<T>& u, const vec3<T>& v)
 {
     return vec3<T>(u.e[0] + v.e[0], u.e[1] + v.e[1], u.e[2] + v.e[2]);
 }
 
-template <std::floating_point T>
-vec3<T> operator-(const vec3<T>& u, const vec3<T>& v)
+template <std::floating_point T> vec3<T> operator-(const vec3<T>& u, const vec3<T>& v)
 {
     return vec3<T>(u.e[0] - v.e[0], u.e[1] - v.e[1], u.e[2] - v.e[2]);
 }
 
-template <std::floating_point T>
-vec3<T> operator*(const vec3<T>& u, const vec3<T>& v)
+template <std::floating_point T> vec3<T> operator*(const vec3<T>& u, const vec3<T>& v)
 {
     return vec3<T>(u.e[0] * v.e[0], u.e[1] * v.e[1], u.e[2] * v.e[2]);
 }
 
-template <std::floating_point T>
-vec3<T> operator*(T t, const vec3<T>& v)
+template <std::floating_point T> vec3<T> operator*(T t, const vec3<T>& v)
 {
     return vec3<T>(t * v.e[0], t * v.e[1], t * v.e[2]);
 }
 
-template <std::floating_point T>
-vec3<T> operator*(const vec3<T>& v, T t)
+template <std::floating_point T> vec3<T> operator*(const vec3<T>& v, T t) { return t * v; }
+
+template <std::floating_point T> vec3<T> operator/(vec3<T> v, T t) { return (1 / t) * v; }
+
+template <std::floating_point T> T dot(const vec3<T>& u, const vec3<T>& v)
 {
-    return t * v;
+    return u.e[0] * v.e[0] + u.e[1] * v.e[1] + u.e[2] * v.e[2];
 }
 
-template <std::floating_point T>
-vec3<T> operator/(vec3<T> v, T t)
+template <std::floating_point T> vec3<T> cross(const vec3<T>& u, const vec3<T>& v)
 {
-    return (1 / t) * v;
-}
-
-template <std::floating_point T>
-T dot(const vec3<T>& u, const vec3<T>& v)
-{
-    return u.e[0] * v.e[0]
-        + u.e[1] * v.e[1]
-        + u.e[2] * v.e[2];
-}
-
-template <std::floating_point T>
-vec3<T> cross(const vec3<T>& u, const vec3<T>& v)
-{
-    return vec3<T>(u.e[1] * v.e[2] - u.e[2] * v.e[1],
-        u.e[2] * v.e[0] - u.e[0] * v.e[2],
+    return vec3<T>(u.e[1] * v.e[2] - u.e[2] * v.e[1], u.e[2] * v.e[0] - u.e[0] * v.e[2],
         u.e[0] * v.e[1] - u.e[1] * v.e[0]);
 }
 
-template <std::floating_point T>
-vec3<T> unit_vector(vec3<T> v)
-{
-    return v / v.length();
-}
+template <std::floating_point T> vec3<T> unit_vector(vec3<T> v) { return v / v.length(); }
