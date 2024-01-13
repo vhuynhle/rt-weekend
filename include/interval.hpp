@@ -1,12 +1,13 @@
 #pragma once
 
+#include <algorithm>
 #include <concepts>
 #include <limits>
 
 template <std::floating_point T>
 struct interval {
-    T min;
-    T max;
+    const T min;
+    const T max;
 
     interval()
         : interval { -std::numeric_limits<T>::infinity(), std::numeric_limits<T>::infinity() } { }
@@ -25,8 +26,9 @@ struct interval {
 
     bool surrounds(T x) const { return (x > min) && (x < max); }
 
+    T clamp(T x) const { return std::clamp(x, min, max); }
+
     static inline const interval empty { T(1), T(0) };
     static inline const interval universe {};
-    static inline const interval nonnegative { T(0), std::numeric_limits<T>::infinity()};
-
+    static inline const interval nonnegative { T(0), std::numeric_limits<T>::infinity() };
 };
