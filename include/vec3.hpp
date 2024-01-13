@@ -1,5 +1,6 @@
 #pragma once
 
+#include "utils.hpp"
 #include <cmath>
 #include <concepts>
 #include <cstddef>
@@ -108,4 +109,33 @@ vec3<T> cross(const vec3<T>& u, const vec3<T>& v) {
 template <std::floating_point T>
 vec3<T> unit_vector(vec3<T> v) {
     return v / v.length();
+}
+
+template <std::floating_point T>
+vec3<T> get_random_vec(T min, T max) {
+    return { get_random(min, max), get_random(min, max), get_random(min, max) };
+}
+
+template <std::floating_point T>
+vec3<T> get_random_vec_in_unit_sphere() {
+    const T epsilon { T(0.1) };
+    while (true) {
+        const vec3<T> p = get_random_vec<T>(-1, 1);
+        const T ls { p.length_squared() };
+        if ((ls < 1) && (ls > epsilon)) {
+            return p;
+        }
+    }
+}
+
+template <std::floating_point T>
+vec3<T> get_random_unit_vector() {
+    return unit_vector(get_random_vec_in_unit_sphere<T>());
+}
+
+template <std::floating_point T>
+vec3<T> random_on_hemisphere(const vec3<T>& normal) {
+    const vec3<T> v { get_random_unit_vector<T>() };
+    const T dot_prod = dot(v, normal);
+    return dot_prod > 0 ? v : -v;
 }

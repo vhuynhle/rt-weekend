@@ -68,8 +68,13 @@ private:
 
         if (may_hit_obj) {
             const vec3<T> normal { may_hit_obj->normal };
-            return color<T> { T(0.5) * normal.x() + T(0.5), T(0.5) * normal.y() + T(0.5),
-                              T(0.5) * normal.z() + T(0.5) };
+
+            // Gray diffuse material
+            const vec3<T> direction { random_on_hemisphere(normal) };
+            return T(0.7) * ray_color(obj, ray<T> { may_hit_obj->p, direction });
+
+            // return color<T> { T(0.5) * normal.x() + T(0.5), T(0.5) * normal.y() + T(0.5),
+            //                   T(0.5) * normal.z() + T(0.5) };
         }
         const vec3<T> unit_direction { unit_vector(r.direction()) };
         const T a { T(0.5) * (unit_direction.y() + T(1)) };

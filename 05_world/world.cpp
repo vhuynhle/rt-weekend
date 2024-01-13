@@ -10,7 +10,7 @@
 namespace {
 
 constexpr double aspect_ratio { 16.0 / 9.0 };
-constexpr std::size_t image_width { 512 };
+constexpr std::size_t image_width { 1024};
 const point3d camera_center { 0, 0, 0 };
 constexpr double focal_length { 1.0 };
 constexpr double viewport_height { 2.0 };
