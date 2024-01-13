@@ -1,9 +1,9 @@
 #pragma once
 
-#include "hittable.h"
-#include "interval.h"
+#include "hittable.hpp"
+#include "interval.hpp"
 #include "ray.hpp"
-#include "vec3.h"
+#include "vec3.hpp"
 #include <cmath>
 #include <concepts>
 #include <optional>

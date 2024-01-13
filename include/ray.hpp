@@ -2,7 +2,7 @@
 
 #include <concepts>
 
-#include "vec3.h"
+#include "vec3.hpp"
 
 template <std::floating_point T>
 class ray {

@@ -1,9 +1,9 @@
-#include "color.h"
-#include "hittable.h"
-#include "interval.h"
+#include "color.hpp"
+#include "hittable.hpp"
+#include "interval.hpp"
 #include "ray.hpp"
-#include "sphere.h"
-#include "vec3.h"
+#include "sphere.hpp"
+#include "vec3.hpp"
 
 #include <concepts>
 #include <cstddef>

@@ -1,7 +1,7 @@
-#include "camera.h"
-#include "hittable_list.h"
-#include "sphere.h"
-#include "vec3.h"
+#include "camera.hpp"
+#include "hittable_list.hpp"
+#include "sphere.hpp"
+#include "vec3.hpp"
 
 #include <cstddef>
 #include <memory>

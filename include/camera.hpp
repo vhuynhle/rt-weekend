@@ -1,9 +1,9 @@
 #pragma once
 
-#include "color.h"
-#include "hittable.h"
+#include "color.hpp"
+#include "hittable.hpp"
 #include "ray.hpp"
-#include "vec3.h"
+#include "vec3.hpp"
 
 #include <concepts>
 #include <cstddef>

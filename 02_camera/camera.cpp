@@ -1,7 +1,7 @@
 
-#include "color.h"
+#include "color.hpp"
 #include "ray.hpp"
-#include "vec3.h"
+#include "vec3.hpp"
 
 #include <concepts>
 #include <cstddef>
@@ -40,8 +40,8 @@ int main() {
         - vec3d(0, 0,
                 focal_length) // The viewport is focal_length away from the camera, in the -z
                               // direction
-        - viewport_u / 2.0 // the viewport is to the left of the camera
-        - viewport_v / 2.0; // the view port is to the top of the camera
+        - viewport_u / 2.0    // the viewport is to the left of the camera
+        - viewport_v / 2.0;   // the view port is to the top of the camera
 
     const point3d pixel00_loc
         = viewport_upper_left

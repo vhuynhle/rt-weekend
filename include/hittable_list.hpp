@@ -1,7 +1,7 @@
 #pragma once
 
-#include "hittable.h"
-#include "interval.h"
+#include "hittable.hpp"
+#include "interval.hpp"
 #include "ray.hpp"
 
 #include <algorithm>
